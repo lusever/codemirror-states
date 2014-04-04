@@ -1,0 +1,14 @@
+{
+  "name": "CodeMirror States",
+  "version": "0.1.0",
+  "homepage": "https://github.com/lusever/codemirror-states",
+  "authors": [
+    "Pavel Kornilov <lusever@lusever.com>"
+  ],
+  "description": "Export and import CodeMirror line classes, line widgets and markers.",
+  "main": "states.js",
+  "keywords": [
+    "codemirror"
+  ],
+  "license": "MIT"
+}
