@@ -13,7 +13,7 @@ bower install codemirror-states
 
 Export:
 ```javascript
-var states = editor.getStates()
+var states = editor.getStates();
 ```
 
 Import:
