@@ -16,6 +16,7 @@
     return result;
   }
 
+  CodeMirror.defineExtension('getStates',
   /**
    * Get states into object.
    * For export html from line widgets use option:
@@ -23,7 +24,7 @@
    * @param {{?markers: Array, ?lineWidgets: Array}} extraProp
    * @return {{markers: Object, lineClasses: Array, lineWidgets: Array}}
    */
-  CodeMirror.defineExtension('getStates', function(extraProp) {
+  function(extraProp) {
     var cm = this;
     // list options from http://codemirror.net/doc/manual.html#markText
     var markerOptionsArray = [
@@ -103,11 +104,12 @@
     };
   });
 
+  CodeMirror.defineExtension('setStates',
   /**
    * Apply states.
    * @param {{lineClasses: Object, lineWidgets: Object, markers: Object}} states
    */
-  CodeMirror.defineExtension('setStates', function(states) {
+  function(states) {
     var cm = this;
 
     states.lineClasses.forEach(function(className, i) {
