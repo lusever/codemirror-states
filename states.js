@@ -139,4 +139,4 @@
       cm.markText(marker.from, marker.to, marker.options);
     });
   });
-})();
+});
