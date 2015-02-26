@@ -1,6 +1,6 @@
 /**
  * Export and apply states from object.
- * Support IE9+.
+ * Support IE8+.
  */
 (function(mod) {
   if (typeof exports == 'object' && typeof module == 'object') { // CommonJS
@@ -58,16 +58,19 @@
       lineWidgetOptionsArray.push.apply(context, [arguments])(lineWidgetOptionsArray, extraProp.markers);
     }
 
-    var markerOptions = markerOptionsArray.reduce(function(prev, cur) {
-      prev[cur] = true;
-      return prev;
-    }, {});
+    var markerOptions = {};
+    for (var i = 0; i < markerOptionsArray.length; i++) {
+      markerOptions[markerOptionsArray[i]] = true;
+    }
 
-    var markers = cm.getAllMarks().map(function(marker) {
+    var markers = [];
+    var cmMarkers = cm.getAllMarks();
+    for (i = 0; i < cmMarkers.length; i++) {
+      var marker = cmMarkers[i];
       var data = marker.find(); // => {from, to}
       data.options = objectFilter(marker, markerOptions);
-      return data;
-    });
+      markers.push(data);
+    }
 
     var lineClasses = [];
     var lineWidgets = [];
@@ -86,10 +89,10 @@
       lineWidgetOptionsArray.push.apply(lineWidgetOptionsArray, extraProp.lineWidgets);
     }
 
-    var lineWidgetOptions = lineWidgetOptionsArray.reduce(function(prev, cur) {
-      prev[cur] = true;
-      return prev;
-    }, {});
+    var lineWidgetOptions = {};
+    for (i = 0; i < lineWidgetOptionsArray.length; i++) {
+      lineWidgetOptions[lineWidgetOptionsArray[i]] = true;
+    }
 
     cm.eachLine(function(lineHandle) {
       if (lineHandle.widgets) {
@@ -120,23 +123,26 @@
   function(states) {
     var cm = this;
 
-    states.lineClasses.forEach(function(className, i) {
-      cm.addLineClass(i, 'text', className);
-    });
+    for (var i = 0; i < states.lineClasses.length; i++) {
+      cm.addLineClass(i, 'text', states.lineClasses[i]);
+    }
 
-    states.lineWidgets.forEach(function(widgets, lineNo) {
+    for (i = 0; i < states.lineWidgets.length; i++) {
+      var widgets = states.lineWidgets[i];
       if (!widgets) {
-        return;
+        break;
       }
       var div = document.createElement('div');
-      widgets.forEach(function(widget) {
+      for (var j = 0; j < widgets.length; j++) {
+        var widget = widgets[j];
         div.innerHTML = widget.node;
-        cm.addLineWidget(lineNo, div.firstChild, widget.options);
-      });
-    });
+        cm.addLineWidget(i, div.firstChild, widget.options);
+      }
+    }
 
-    states.markers.forEach(function(marker) {
+    for (i = 0; i < states.markers.length; i++) {
+      var marker = states.markers[i];
       cm.markText(marker.from, marker.to, marker.options);
-    });
+    }
   });
 });
